@@ -4,11 +4,11 @@ import MySQLdb
 connection_params = {}
 
 def init_db(app: Flask, user: str, password: str, host: str, database: str, port: int = 3306, autocommit: bool = True):
-    connection_params['user'] = user
-    connection_params['password'] = password
-    connection_params['host'] = host
-    connection_params['database'] = database
-    connection_params['port'] = port
+    connection_params['user'] = "abivj"
+    connection_params['password'] = "triogic@123"
+    connection_params['host'] = "abivj.mysql.pythonanywhere-services.com"
+    connection_params['database'] = "abivj$internlink"
+    connection_params['port'] = 3306
     connection_params['autocommit'] = autocommit
     app.teardown_appcontext(close_db)
 
