@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InternLink - Log In</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bs-primary: #4361ee; 
+            --bs-primary-rgb: 67, 97, 238;
+            --bs-secondary: #3a0ca3; 
+            --bs-secondary-rgb: 58, 12, 163;
+            --bs-light: #f5f7ff; 
+        }
+        body {
+            background-color: var(--bs-light);
+        }
+        .btn-primary {
+            --bs-btn-bg: var(--bs-primary);
+            --bs-btn-border-color: var(--bs-primary);
+            --bs-btn-hover-bg: var(--bs-secondary);
+            --bs-btn-hover-border-color: var(--bs-secondary);
+        }
+        .form-control:focus {
+            border-color: var(--bs-primary);
+            box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+        }
+    </style>
+</head>
+<body>
+    <div class="container min-vh-100 d-flex align-items-center justify-content-center">
+        <div class="row justify-content-center w-100">
+            <div class="col-md-8 col-lg-6">
+                <div class="card border-0 shadow">
+                  
+                    <div class="card-body p-4">
+                        <h4 class="text-center mb-3">Welcome Back</h4>
+                        <p class="text-center text-muted mb-4">Sign in to continue to your account</p>
+
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show mb-4" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+
+                        <form method="POST" action="{{ url_for('login') }}">
+                            <div class="mb-3">
+                                <label for="username" class="form-label fw-semibold">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" 
+                                       value="{{ username if username else '' }}" maxlength="20" required
+                                       placeholder="Enter your username">
+                                {% if username_invalid %}
+                                    <div class="text-danger small mt-1">Can't find your account</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="password" class="form-label fw-semibold">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" 
+                                       required placeholder="Enter your password">
+                                {% if password_invalid %}
+                                    <div class="text-danger small mt-1">Incorrect username or password</div>
+                                {% endif %}
+                            </div>
+
+                          
+
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-primary">Sign In</button>
+                            </div>
+
+                            <div class="text-center">
+                                <p class="mb-0">Don't have an account? 
+                                    <a href="{{ url_for('signup') }}" class="fw-semibold text-primary">Create one</a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

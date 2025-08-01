@@ -1,0 +1,115 @@
+{% extends 'userbase.html' %}
+{% block title %}InternLink - Profile{% endblock %}
+{% set active_page = 'profile' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mb-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <img src="{{ url_for('static', filename='uploads/' + (profile.profile_image if profile.profile_image else 'default-avatar.png')) }}" 
+                     class="rounded-circle mb-3" width="120" height="120" style="object-fit: cover;">
+                <h4>{{ profile.full_name }}</h4>
+                <p class="text-muted">{{ profile.role.title() }}</p>
+                <span class="badge bg-{% if profile.status == 'active' %}success{% else %}secondary{% endif %}">
+                    {{ profile.status.title() }}
+                </span>
+            </div>
+        </div>
+  
+    
+    <div class="col-lg-12">
+        <div class="card">
+            
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-10">
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong>Username:</strong></td>
+                                <td>{{ profile.username }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email:</strong></td>
+                                <td>{{ profile.email }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Full Name:</strong></td>
+                                <td>{{ profile.full_name }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Role:</strong></td>
+                                <td>{{ profile.role.title() }}</td>
+                            </tr>
+                            <tr>
+                                <td>   <a href="{{ url_for('edit_profile') }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-edit me-1"></i>Edit Profile
+                </a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        {% if profile.role == 'student' %}
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>University:</strong></td>
+                                    <td>{{ profile.university or 'Not specified' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Course:</strong></td>
+                                    <td>{{ profile.course or 'Not specified' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Resume:</strong></td>
+                                    <td>
+                                        {% if profile.resume_filename %}
+                                            <i class="fas fa-file-pdf text-danger me-1"></i>
+                                            {{ profile.resume_filename }}
+                                        {% else %}
+                                            <span class="text-muted">Not uploaded</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                        {% elif profile.role == 'employer' %}
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>Company:</strong></td>
+                                    <td>{{ profile.company_name or 'Not specified' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Website:</strong></td>
+                                    <td>
+                                        {% if profile.company_website %}
+                                            <a href="{{ profile.company_website }}" target="_blank">{{ profile.company_website }}</a>
+                                        {% else %}
+                                            <span class="text-muted">Not specified</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                            {% if profile.company_description %}
+                                <div class="mt-3">
+                                    <strong>Company Description:</strong>
+                                    <p class="text-muted mt-1">{{ profile.company_description }}</p>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Account Security</h5>
+                <p class="text-muted">Keep your account secure by regularly updating your password.</p>
+                <a href="{{ url_for('change_password') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-key me-1"></i>Change Password
+                </a>
+            </div>
+        </div>
+    </div>
+      </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'userbase.html' %}
+{% block title %}InternLink - My Internships{% endblock %}
+{% set active_page = 'internships' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <span class="badge bg-info fs-6">{{ internships|length }} Posted</span>
+</div>
+
+{% if internships %}
+    <div class="column">
+        {% for internship in internships %}
+            <div class="col-lg-12 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0">{{ internship.title }}</h5>
+                            <span class="badge bg-{% if internship.status == 'open' %}success{% else %}secondary{% endif %}">
+                                {{ internship.status.title() }}
+                            </span>
+                        </div>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ internship.company_name }}</h6>
+                        <p class="card-text">{{ internship.description[:150] }}...</p>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">
+                                <i class="fas fa-map-marker-alt me-1"></i>{{ internship.location }}
+                            </small>
+                            <small class="text-muted d-block">
+                                <i class="fas fa-clock me-1"></i>{{ internship.duration }}
+                            </small>
+                            <small class="text-muted d-block">
+                                <i class="fas fa-calendar-alt me-1"></i>Deadline:
+                                {{ internship.application_deadline.strftime('%Y-%m-%d') if internship.application_deadline else 'N/A' }}
+
+                            </small>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-light text-dark">{{ internship.category }}</span>
+                            <a href="{{ url_for('employer_applications') }}?search_title={{ internship.title }}" 
+                               class="btn btn-primary btn-sm">
+                                <i class="fas fa-users me-1"></i>View Applications
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-briefcase fa-4x text-muted mb-3"></i>
+        <h4 class="text-muted">No internships posted</h4>
+        <p class="text-muted">Your posted internships will appear here.</p>
+    </div>
+{% endif %}
+{% endblock %}

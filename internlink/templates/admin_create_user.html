@@ -1,0 +1,57 @@
+{% extends 'userbase.html' %}
+{% block title %}InternLink - Create User{% endblock %}
+{% set active_page = 'users' %}
+
+{% block content %}
+<div class="card">
+    {% if signup_successful %}
+        <div class="alert alert-success">User created successfully!</div>
+    {% endif %}
+<form method="POST" action="{{ url_for('admin_create_user') }}" class="card-body" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" name="username"
+               value="{{ username or '' }}" required>
+        {% if username_error %}
+        <div class="text-danger">{{ username_error }}</div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" class="form-control" id="email" name="email"
+               value="{{ email or '' }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+        {% if password_error %}
+        <div class="text-danger">{{ password_error }}</div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label for="full_name" class="form-label">Full Name</label>
+        <input type="text" class="form-control" id="full_name" name="full_name"
+               value="{{ full_name or '' }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="role" class="form-label">Role</label>
+        <select class="form-select" id="role" name="role">
+            <option value="employer" {% if role == 'employer' %}selected{% endif %}>Employer</option>
+            <option value="admin" {% if role == 'admin' %}selected{% endif %}>Admin</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="profile_image" class="form-label">Profile Image (optional)</label>
+        <input type="file" class="form-control" id="profile_image" name="profile_image" accept="image/*">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create User</button>
+</form>
+
+            </div>
+            {% endblock %}

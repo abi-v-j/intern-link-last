@@ -1,0 +1,53 @@
+{% extends 'userbase.html' %}
+{% block title %}InternLink - Post Internship{% endblock %}
+{% set active_page = 'post' %}
+
+{% block content %}
+<div class="container card">
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+   <form method="POST" action="{{ url_for('employer_post') }}" class="card-body" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="title" class="form-label">Internship Title</label>
+        <input type="text" class="form-control" id="title" name="title" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input type="text" class="form-control" id="location" name="location" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="duration" class="form-label">Duration (e.g., 3 months)</label>
+        <input type="text" class="form-control" id="duration" name="duration" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <input type="text" class="form-control" id="category" name="category" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="application_deadline" class="form-label">Application Deadline</label>
+        <input type="date" class="form-control" id="application_deadline" name="application_deadline" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="status" class="form-label">Status</label>
+        <select class="form-select" id="status" name="status">
+            <option value="open">Open</option>
+            <option value="closed">Closed</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Post Internship</button>
+</form>
+
+</div>
+{% endblock %}

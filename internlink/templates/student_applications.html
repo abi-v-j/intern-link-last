@@ -1,0 +1,60 @@
+{% extends 'userbase.html' %}
+{% block title %}InternLink - My Applications{% endblock %}
+{% set active_page = 'applications' %}
+
+{% block content %}
+
+
+{% if applications %}
+    <div class="row">
+        {% for application in applications %}
+            <div class="col-lg-10 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0">{{ application.title }}</h5>
+                            <span class="badge bg-{% if application.status == 'accepted' %}success{% elif application.status == 'rejected' %}danger{% else %}warning{% endif %}">
+                                {{ application.status.title() }}
+                            </span>
+                        </div>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ application.company_name }}</h6>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">
+                                <i class="fas fa-map-marker-alt me-1"></i>{{ application.location }}
+                            </small>
+                            <small class="text-muted d-block">
+                                <i class="fas fa-clock me-1"></i>{{ application.duration }}
+                            </small>
+                            <small class="text-muted d-block">
+                                <i class="fas fa-calendar-alt me-1"></i>Applied: {{ application.submission_date.strftime('%d %b %Y') }}
+                            </small>
+                        </div>
+                        
+                        {% if application.cover_letter %}
+                            <div class="mb-3">
+                                <strong>Cover Letter:</strong>
+                                <p class="small text-muted mt-1">{{ application.cover_letter[:100] }}{% if application.cover_letter|length > 100 %}...{% endif %}</p>
+                            </div>
+                        {% endif %}
+                        
+                        {% if application.reason and application.status in ['accepted', 'rejected'] %}
+                            <div class="alert alert-{% if application.status == 'accepted' %}success{% else %}danger{% endif %} alert-sm">
+                                <strong>Feedback:</strong> {{ application.reason }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+        <h4 class="text-muted">No applications yet</h4>
+        <p class="text-muted">Start applying for internships to see them here.</p>
+        <a href="{{ url_for('student_internships') }}" class="btn btn-primary">
+            <i class="fas fa-search me-1"></i>Browse Internships
+        </a>
+    </div>
+{% endif %}
+{% endblock %}

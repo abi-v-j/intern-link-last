@@ -1,0 +1,124 @@
+{% extends 'userbase.html' %}
+{% block title %}InternLink - View User{% endblock %}
+{% set active_page = 'users' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <a href="{{ url_for('admin_users') }}" class="btn btn-secondary">
+     Back to Users
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-lg-10 mb-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <img src="{{ url_for('static', filename='uploads/' + (user.profile_image if user.profile_image else 'default-avatar.png')) }}" 
+                     class="rounded-circle mb-3" width="120" height="120" style="object-fit: cover;">
+                <h4>{{ user.full_name }}</h4>
+                <p class="text-muted">{{ user.role.title() }}</p>
+                <span class="badge bg-{% if user.status == 'active' %}success{% else %}secondary{% endif %} fs-6">
+                    {{ user.status.title() }}
+                </span>
+            </div>
+       </div>
+    
+    <div class="col-lg-12">
+        <div class="card">
+            
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong>Username:</strong></td>
+                                <td>{{ user.username }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email:</strong></td>
+                                <td>{{ user.email }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Full Name:</strong></td>
+                                <td>{{ user.full_name }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Role:</strong></td>
+                                <td>{{ user.role.title() }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Status:</strong></td>
+                                <td>{{ user.status.title() }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        {% if user.role == 'student' %}
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>University:</strong></td>
+                                    <td>{{ user.university or 'Not specified' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Course:</strong></td>
+                                    <td>{{ user.course or 'Not specified' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Resume:</strong></td>
+                                    <td>
+                                        {% if user.resume_filename %}
+                                            <i class="fas fa-file-pdf text-danger me-1"></i>
+                                            {{ user.resume_filename }}
+                                        {% else %}
+                                            <span class="text-muted">Not uploaded</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                        {% elif user.role == 'employer' %}
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>Company:</strong></td>
+                                    <td>{{ user.company_name or 'Not specified' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Website:</strong></td>
+                                    <td>
+                                        {% if user.company_website %}
+                                            <a href="{{ user.company_website }}" target="_blank">{{ user.company_website }}</a>
+                                        {% else %}
+                                            <span class="text-muted">Not specified</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                            {% if user.company_description %}
+                                <div class="mt-3">
+                                    <strong>Company Description:</strong>
+                                    <p class="text-muted mt-1">{{ user.company_description }}</p>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% if user.user_id != session['user_id'] %}
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Admin Actions</h5>
+                    <p class="text-muted">Manage this user's account status.</p>
+                    <a href="{{ url_for('admin_toggle_user_status', user_id=user.user_id) }}" 
+                       class="btn btn-{% if user.status == 'active' %}warning{% else %}success{% endif %}"
+                       onclick="return confirm('Are you sure you want to change this user\'s status?')">
+                        <i class="fas fa-{% if user.status == 'active' %}pause{% else %}play{% endif %} me-1"></i>
+                        {% if user.status == 'active' %}Deactivate{% else %}Activate{% endif %} User
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+ </div>
+{% endblock %}

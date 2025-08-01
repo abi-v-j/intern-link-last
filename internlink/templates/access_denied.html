@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>InternLink - Access Denied</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="alert alert-danger" role="alert">
+            <h1>Access Denied</h1>
+            <p>Your account isn't authorized to view this page. You can <a href="{{ url_for('user_home_url') }}">return home</a> or <a href="{{ url_for('logout') }}">log out</a> to sign in with a different account.</p>
+        </div>
+    </div>
+    <footer class="text-center mt-4">InternLink | Student ID: 12345678</footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
