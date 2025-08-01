@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS internlink;
-USE internlink;
+CREATE DATABASE IF NOT EXISTS abivj$internlink;
+USE abivj$internlink;
 
 CREATE TABLE `users` (
   `user_id` int NOT NULL AUTO_INCREMENT,
